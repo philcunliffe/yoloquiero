@@ -29,6 +29,13 @@
 			<div class="delete-button button" ng-click="deleteSelectedItems()">
 				<h3>Delete Items</h3>
 			</div>
+			<div id="add-item-container">
+				<form>
+					<input type="text" placeholder="Item name"/>
+					<input type="text" placeholder="Brand"/>
+					<input type="text" placeholder="$0"/>
+				</form>
+			</div>
 			<div class="list-container">
 				<ul id="main-list">
 					<li class="list-item selected-{{item.selected}}" ng-click="item.selected = !item.selected" ng-repeat="item in items">
