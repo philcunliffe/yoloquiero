@@ -1,36 +1,50 @@
 function MainListController($scope) {
+
+	$scope.addItemDialog = $("#add-item-dialog");
+	$scope.modalShield = $("#modal-shield");
+	$scope.modalShield.click( function() {
+		$scope.closeOpenModal();
+	});
+	$scope.openModal = null;
+	$scope.items = [{itemName: 'itemName', url: 'http://www.google.com', price: 100, brand: 'blah', selected: false}];
+
+	$scope.toggleAddItem = function() {
+		$scope.addItemDialog.show();
+		$scope.modalShield.show();
+		$scope.openModal = $scope.addItemDialog;
+	};
 	
-	$scope.totalCost = 0;
-	
-	$scope.items = [{itemName: 'itemName', url: 'http://www.google.com', price: 100, selected: false}];
+	$scope.closeOpenModal = function() {
+		$scope.openModal.hide();
+		$scope.modalShield.hide()
+		$scope.openModal = null;
+	};
 	
 	$scope.addItem = function() {
-		$scope.items.push({itemName: 'test', url: 'http://www.google.com', price: 111, selected: false});
-		$scope.updateTotalCost();
+		$scope.items.push({itemName: $scope.itemName, url: $scope.itemUrl, price: $scope.itemPrice, brand: $scope.itemBrand, selected: false});
 	};
 	
 	$scope.deleteSelectedItems = function() {
 		$scope.items = _.filter($scope.items, function(item) {
 			return !item.selected;
 		});
-		$scope.updateTotalCost();
 	};
 	
-	$scope.updateTotalCost = function() {
+	$scope.totalCost = function() {
 		var cost = 0;
 		$.each( $scope.items, function(key, value) {
 			cost += value.price;
 		});
-		$scope.totalCost = cost;
+		return cost;
 	};
 	
 	$scope.init = function() {
-		$scope.updateTotalCost();
+	
 	};
 		
 	$scope.init();
 }
 
 $(document).ready( function() {
-	
+
 });

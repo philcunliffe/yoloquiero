@@ -4,11 +4,12 @@
 <head>
   	<meta charset="utf-8">
 
-  	<title>I Need Dis!</title>
+  	<title>iNeedDis!</title>
   	<meta name="description" content="The HTML5 Herald">
   	<meta name="author" content="SitePoint">
 
   	<link rel="stylesheet" href="CSS/main.css">
+	<link rel="stylesheet" href="CSS/jquery-ui-1.10.3.custom.min.css">
 
   	<!--[if lt IE 9]>
   	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -17,24 +18,16 @@
 
 <body ng-controller="MainListController">
 	<div id="wrapper">
-	
 		<header>
-			<h1>I Need Dis!</h1>
+			<h1>iNeedDis!</h1>
 			<nav></nav>
 		</header>
 		<section id="main-content">
-			<div class="add-button button" ng-click="addItem()">
+			<div class="add-button button" ng-click="toggleAddItem()">
 				<h3>Add Item</h3>
 			</div>
 			<div class="delete-button button" ng-click="deleteSelectedItems()">
 				<h3>Delete Items</h3>
-			</div>
-			<div id="add-item-container">
-				<form>
-					<input type="text" placeholder="Item name"/>
-					<input type="text" placeholder="Brand"/>
-					<input type="text" placeholder="$0"/>
-				</form>
 			</div>
 			<div class="list-container">
 				<ul id="main-list">
@@ -46,12 +39,27 @@
 		</section>
 		<section id="sidebar">
 			<h1>Total</h1>
-			<p id="total-cost">${{totalCost}}</p>
+			<p id="total-cost">${{totalCost()}}</p>
 		</section>
 	</div>
+	<div id="add-item-dialog">
+		<form id="add-item-form" ng-submit="addItem()">
+			<label for="itemName">Item Name</label>
+			<input name="itemName" type="text" required ng-model="itemName"/>
+			<label for="itemBrand">Brand</label>
+			<input name="itemBrand" type="text" required ng-model="itemBrand"/>
+			<label for="url">URL (optional)</label>
+			<input name="url" type="url" ng-model="itemUrl"/>
+			<label for="price">Price</label>
+			<input name="price" type="number" required ng-model="itemPrice"/>
+			<input type="submit" value="Add Item"/>
+		</form>
+	</div>
+	<div id="modal-shield"></div>
   	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
   	<script src="JS/main.js"></script>
 </body>
 </html>
