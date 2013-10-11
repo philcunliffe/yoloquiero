@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html lang="en" ng-app>
+<head>
+  	<meta charset="utf-8">
+
+  	<title>I Need Dis!</title>
+  	<meta name="description" content="The HTML5 Herald">
+  	<meta name="author" content="SitePoint">
+
+  	<link rel="stylesheet" href="CSS/main.css">
+
+  	<!--[if lt IE 9]>
+  	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+</head>
+
+<body ng-controller="MainListController">
+	<div id="wrapper">
+	
+		<header>
+			<h1>I Need Dis!</h1>
+			<nav></nav>
+		</header>
+		<section id="main-content">
+			<div class="add-button button" ng-click="addItem()">
+				<h3>Add Item</h3>
+			</div>
+			<div class="delete-button button" ng-click="deleteSelectedItems()">
+				<h3>Delete Items</h3>
+			</div>
+			<div class="list-container">
+				<ul id="main-list">
+					<li class="list-item selected-{{item.selected}}" ng-click="item.selected = !item.selected" ng-repeat="item in items">
+						<a href="{{item.url}}"><h3>{{item.itemName}}</h3></a><span>${{item.price}}</span>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<section id="sidebar">
+			<h1>Total</h1>
+			<p id="total-cost">${{totalCost}}</p>
+		</section>
+	</div>
+  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+  	<script src="JS/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+/*BEGIN RESET*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*END RESET*/
+
+/*BEGIN STANDARDS*/
+
+.button {
+	width: 150px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background-color: #ccc;
+}
+
+h1 { font-size: 36px; }
+h2 { font-size: 24px; }
+h3 { font-size: 18px; }
+h4 { font-size: 14px; }
+h5 { font-size: 12px; }
+h6 { font-size: 9px; }
+
+/*END STANDARDS*/
+
+#wrapper {
+	width: 700px;
+	margin: 0 auto;
+	position: relative;
+	left: 100px;
+}
+
+#wrapper > header {
+	height: 120px;
+}
+
+#wrapper > header > h1 {
+	font-size: 110px;
+}
+
+#main-content {
+	width: 500px;
+	float: left;
+}
+
+.add-button {
+	float: left;
+}
+
+.delete-button {
+	float: right;
+}
+
+.list-container {
+	padding-top: 15px;
+	float: left;
+}
+
+#sidebar {
+	width: 150px;
+	margin-left: 50px;
+	float: left;
+}
+
+#sidebar > h1 {
+	font-size: 40px;
+	width: 100%;
+	text-align: right;
+	font-variant: small-caps;
+}
+
+#total-cost {
+	font-size: 60px;
+	width: 100%;
+	text-align: right;
+}
+
+/*List items*/
+ul#main-list > li {
+	height: 50px;
+	line-height: 50px;
+	float: left;
+	background-color: #ccc;
+	width: 500px;
+	clear: both;
+}
+
+ul#main-list > li.selected-true {
+	background-color: #B2F0FF !important;
+}
+
+ul#main-list > li:nth-child(2n) {
+	background-color: #eee;
+}
+
+ul#main-list > li h3 {
+	float: left;
+	margin-left: 25px;
+}
+
+ul#main-list > li > span {
+	display: block;
+	float: right;
+	margin-right: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
