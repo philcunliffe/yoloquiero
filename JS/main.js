@@ -6,7 +6,7 @@ function MainListController($scope) {
 		$scope.closeOpenModal();
 	});
 	$scope.openModal = null;
-	$scope.items = [{itemName: 'itemName', url: 'http://www.google.com', price: 100, brand: 'blah', selected: false}];
+	$scope.items = [];
 
 	$scope.toggleAddItem = function() {
 		$scope.addItemDialog.show();
@@ -22,12 +22,23 @@ function MainListController($scope) {
 	
 	$scope.addItem = function() {
 		$scope.items.push({itemName: $scope.itemName, url: $scope.itemUrl, price: $scope.itemPrice, brand: $scope.itemBrand, selected: false});
+		$scope.closeOpenModal();
+		$scope.clearAddForm();
+		$scope.saveData();
+	};
+	
+	$scope.clearAddForm = function() {
+		$scope.itemName = '';
+		$scope.itemUrl = '';
+		$scope.itemPrice = 0;
+		$scope.itemBrand = '';
 	};
 	
 	$scope.deleteSelectedItems = function() {
 		$scope.items = _.filter($scope.items, function(item) {
 			return !item.selected;
 		});
+		$scope.saveData();
 	};
 	
 	$scope.totalCost = function() {
@@ -38,8 +49,14 @@ function MainListController($scope) {
 		return cost;
 	};
 	
-	$scope.init = function() {
+	$scope.saveData = function() {
+		localStorage.setItem('INeedDis-mainListData', JSON.stringify($scope.items));
+	}
 	
+	$scope.init = function() {
+		if (localStorage.getItem('INeedDis-mainListData')) {
+			$scope.items = JSON.parse(localStorage.getItem('INeedDis-mainListData'));
+		}
 	};
 		
 	$scope.init();
