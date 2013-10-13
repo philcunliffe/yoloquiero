@@ -16,12 +16,12 @@ function MainListController($scope) {
 	
 	$scope.closeOpenModal = function() {
 		$scope.openModal.hide();
-		$scope.modalShield.hide()
+		$scope.modalShield.hide();
 		$scope.openModal = null;
 	};
 	
 	$scope.addItem = function() {
-		$scope.items.push({itemName: $scope.itemName, url: $scope.itemUrl, price: $scope.itemPrice, brand: $scope.itemBrand, selected: false});
+		$scope.items.push({itemName: $scope.itemName, url: $scope.itemUrl, price: $scope.itemPrice, brand: $scope.itemBrand, selected: false, sortType: "sort-item"});
 		$scope.closeOpenModal();
 		$scope.clearAddForm();
 		$scope.saveData();
@@ -58,10 +58,28 @@ function MainListController($scope) {
 			$scope.items = JSON.parse(localStorage.getItem('INeedDis-mainListData'));
 		}
 	};
-		
+    
 	$scope.init();
 }
 
 $(document).ready( function() {
-
+//    var draggableOptions = { axis: "y", connectToSortable: ".sortable", containment: "parent" };
+//    $(".draggable").draggable(draggableOptions);
+    var mainSortableOptions = { placeholder: "ui-state-highlight",  connectWith: ".sort-item" };
+    var itemSortableOptions = { placeholder: "ui-state-highlight" };
+    $(".main-sortable").sortable( mainSortableOptions );
+    $("sort-item").sortable( itemSortableOptions );
+    
+    //Listen for DOM changes
+    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    
+    var mutObserver = new MutationObserver(function(mutations) {
+//        $(".draggable").draggable();
+        $(".main-sortable").sortable();
+    });
+    
+    var config = { childList: true };
+    var target = document.querySelector('#main-list');
+    
+    mutObserver.observe(target, config);
 });
