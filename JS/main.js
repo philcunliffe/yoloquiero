@@ -21,7 +21,7 @@ function MainListController($scope) {
 	};
 	
 	$scope.addItem = function() {
-		$scope.items.push({itemName: $scope.itemName, url: $scope.itemUrl, price: $scope.itemPrice, brand: $scope.itemBrand, selected: false, sortType: "sort-item"});
+		$scope.items.push({itemName: $scope.itemName, url: $scope.itemUrl, price: $scope.itemPrice, brand: $scope.itemBrand, selected: false, sortType: "sort-item", drag = true });
 		$scope.closeOpenModal();
 		$scope.clearAddForm();
 		$scope.saveData();
