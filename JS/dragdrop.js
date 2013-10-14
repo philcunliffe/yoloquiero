@@ -6,7 +6,8 @@ dragNDrop.directive('draggable', function () {
         link: function (scope, element, attrs) {
             element.draggable({
                 revert: "invalid",
-                helper: "clone"
+                helper: "clone",
+                connectToSortable: ".sortable"
             });
         }
     };
@@ -17,7 +18,10 @@ dragNDrop.directive('dropFolderCreate', function () {
        restrict: 'A',
        link: function (scope, element, attrs) {
             var options = {
-                   
+                hoverClass: "folderCreate-hover",
+                drop: function ( event, ui ) {
+                    
+                }
             }
        }
 });
