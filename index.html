@@ -29,15 +29,15 @@
             <div class="add-button button" ng-click="toggleAddFolder()">
                 <h3>Add Folder</h3>
             </div>
-			<div class="delete-button button" ng-click="deleteSelectedItems()">
-				<h3>Delete Items</h3>
+			<div ng-if="location.length != 1" class="delete-button button" ng-click="openParent()">
+				<h3>Go up!</h3>
 			</div>
 			<div class="list-container">
 				<ul id="main-list" class="ui-helper-clearfix main-sortable">
-					<li ng-model="items" draggable ng-if="item.itemType == 'wantedItem'" class="{{item.itemType}} draggable list-item selected-{{item.selected}}" ng-click="item.selected = !item.selected" ng-repeat="item in items">
+					<li ng-model="location[0]" draggable ng-if="item.itemType == 'wantedItem'" class="{{item.itemType}} draggable list-item selected-{{item.selected}}" ng-click="item.selected = !item.selected" ng-repeat="item in location[0]">
 						<a href="{{item.url}}"><h3>{{item.itemName}}</h3></a><span>${{item.cost}}</span>
 					</li>
-                    <li ng-model="items" draggable drop-folder ng-if="item.itemType == 'folder'" class="{{item.itemType}} draggable list-item selected-{{item.selected}}" ng-repeat="item in items">
+                    <li ng-model="location[0]" draggable drop-folder ng-if="item.itemType == 'folder'" class="{{item.itemType}} draggable list-item" ng-click="openFolder(this)" ng-repeat="item in location[0]">
 						<h3>{{item.folderName}}</h3><span>{{item.folderItems.length}} items</span>
 					</li>
 				</ul>

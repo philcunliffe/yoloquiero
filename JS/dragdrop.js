@@ -41,11 +41,12 @@ dragNDrop.directive('dropFolder', function () {
                         drop = angular.element(this),
                         dragIndex = drag.scope().$index,
                         dropIndex = drop.scope().$index,
-                        itemsArray = drag.scope()[$(this).attr("ng-model")];
+                        itemsArray = drag.scope()["location"][0],
+                        saveFunction = drop.scope()["saveData"];
                     itemsArray[dropIndex].folderItems.push(itemsArray[dragIndex]);
                     itemsArray.splice(dragIndex, 1);
-                    
                     drop.scope().$apply();
+                    saveFunction();
                 }
             }
             element.droppable(options);
