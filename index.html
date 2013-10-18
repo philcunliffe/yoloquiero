@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en" ng-app>
+<html lang="en" ng-app="DragNDrop">
 <head>
   	<meta charset="utf-8">
 
@@ -26,7 +26,7 @@
 			<div class="add-button button" ng-click="toggleAddItem()">
 				<h3>Add Item</h3>
 			</div>
-            <div class="add-button button" ng-click="toggelAddFolder()">
+            <div class="add-button button" ng-click="toggleAddFolder()">
                 <h3>Add Folder</h3>
             </div>
 			<div class="delete-button button" ng-click="deleteSelectedItems()">
@@ -34,10 +34,10 @@
 			</div>
 			<div class="list-container">
 				<ul id="main-list" class="ui-helper-clearfix main-sortable">
-					<li ng-show="item.itemType == 'wantedItem'" class="{{item.itemType}} draggable list-item selected-{{item.selected}}" ng-click="item.selected = !item.selected" ng-repeat="item in items">
-						<a href="{{item.url}}"><h3>{{item.itemName}}</h3></a><span>${{item.price}}</span>
+					<li ng-model="items" draggable ng-if="item.itemType == 'wantedItem'" class="{{item.itemType}} draggable list-item selected-{{item.selected}}" ng-click="item.selected = !item.selected" ng-repeat="item in items">
+						<a href="{{item.url}}"><h3>{{item.itemName}}</h3></a><span>${{item.cost}}</span>
 					</li>
-                    <li ng-show="item.itemType == 'folder'" class="{{item.itemType}} draggable list-item selected-{{item.selected}}" ng-repeat="item in items">
+                    <li ng-model="items" draggable drop-folder ng-if="item.itemType == 'folder'" class="{{item.itemType}} draggable list-item selected-{{item.selected}}" ng-repeat="item in items">
 						<h3>{{item.folderName}}</h3><span>{{item.folderItems.length}} items</span>
 					</li>
 				</ul>
@@ -49,31 +49,31 @@
 		</section>
 	</div>
 	<div class="add-dialog" id="add-item-dialog">
-		<form id="add-item-form" ng-submit="addItem()">
+		<form class="add-form" id="add-item-form" ng-submit="addItem()">
 			<label for="itemName">Item Name</label>
 			<input name="itemName" type="text" required ng-model="itemName"/>
 			<label for="itemBrand">Brand</label>
 			<input name="itemBrand" type="text" required ng-model="itemBrand"/>
 			<label for="url">URL (optional)</label>
 			<input name="url" type="url" ng-model="itemUrl"/>
-			<label for="price">Price</label>
-			<input name="price" type="number" required ng-model="itemPrice"/>
+			<label for="cost">Cost</label>
+			<input name="cost" type="number" required ng-model="itemCost"/>
 			<input type="submit" value="Add Item"/>
 		</form>
 	</div>
     <div class="add-dialog" id="add-folder-dialog">
-		<form id="add-item-form" ng-submit="addFolder()">
-			<label for="itemName">Folder Name</label>
-			<input name="itemName" type="text" required ng-model="itemName"/>
+		<form class="add-form" id="add-folder-form" ng-submit="addFolder()">
+			<label for="folderName">Folder Name</label>
+			<input name="folderName" type="text" required ng-model="folderName"/>
 			<input type="submit" value="Add Folder"/>
 		</form>
 	</div>
 	<div id="modal-shield"></div>
-  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-  	<script src="JS/main.js"></script>
-    <script src="JS/angular-dragdrop.min.js"></script>
+    <script src="JS/angular.min.js"></script>
+    <script src="JS/main.js"></script>
+    <script src="JS/dragdrop.js"></script>
 </body>
 </html>

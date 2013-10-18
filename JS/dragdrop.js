@@ -15,7 +15,7 @@ dragNDrop.directive('draggable', function () {
 });
 
 //Item dropped on item
-dragNDrop.directive('dropFolderCreate', function () {
+dragNDrop.directive('dropItem', function () {
    return {
        restrict: 'A',
        link: function (scope, element, attrs) {
@@ -26,20 +26,31 @@ dragNDrop.directive('dropFolderCreate', function () {
                 }
             }
        }
+   }
 });
 
 //Item dropped on folder
-dragNDrop.directive('addToFolder', function () {
+dragNDrop.directive('dropFolder', function () {
    return {
        restrict: 'A',
        link: function (scope, element, attrs) {
             var options = {
                 hoverClass: "addTo-hover",
                 drop: function ( event, ui ) {
-                    //Convert to folder
+                    var drag = angular.element(ui.draggable),
+                        drop = angular.element(this),
+                        dragIndex = drag.scope().$index,
+                        dropIndex = drop.scope().$index,
+                        itemsArray = drag.scope()[$(this).attr("ng-model")];
+                    itemsArray[dropIndex].folderItems.push(itemsArray[dragIndex]);
+                    itemsArray.splice(dragIndex, 1);
+                    
+                    drop.scope().$apply();
                 }
             }
+            element.droppable(options);
        }
+   }
 });
 
 
