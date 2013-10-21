@@ -188,6 +188,10 @@ h6 { font-size: 9px; }
     float: left;
 }
 
+#back-sidebar.backbar-dragHover {
+    background-color: red;
+}
+
 #sidebar > h1 {
 	font-size: 40px;
 	width: 100%;
