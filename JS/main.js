@@ -9,7 +9,8 @@ function MainListController($scope) {
 	});
     
 	$scope.openModal = null;
-	$scope.items = [];
+    $scope.currentFolder = [ "Home" ];
+    $scope.location = [];
     
     //Objects
     
@@ -25,7 +26,12 @@ function MainListController($scope) {
             var cost = 0;
             if (this.folderItems) {
                 $.each(this.folderItems, function (key, value) {
-                    cost += value.cost;
+                    if (typeof value.cost === "function") { //It's a folder
+                        cost += value.cost();   
+                    }
+                    else {
+                        cost += value.cost;
+                    }
                 });
             }
             return cost;
@@ -41,6 +47,20 @@ function MainListController($scope) {
 		$scope.openModal = null;
 	};
     
+    //Navigation
+    
+    $scope.openFolder = function (folder) {
+        //TODO: animation
+        $scope.currentFolder.unshift($scope.location[0][folder.$index].folderName);
+        $scope.location.unshift($scope.location[0][folder.$index].folderItems);
+    };
+    
+    $scope.openParent = function () {
+        //TODO: animation
+        $scope.location.shift();
+        $scope.currentFolder.shift();
+    }
+    
     //Add Item
     
 	$scope.toggleAddItem = function () {
@@ -50,7 +70,7 @@ function MainListController($scope) {
 	};
 	
 	$scope.addItem = function () {
-		$scope.items.push({itemName: $scope.itemName, url: $scope.itemUrl, cost: $scope.itemCost, brand: $scope.itemBrand, selected: false, itemType: "wantedItem" });
+		$scope.location[0].push({itemName: $scope.itemName, url: $scope.itemUrl, cost: $scope.itemCost, brand: $scope.itemBrand, selected: false, itemType: "wantedItem" });
 		$scope.closeOpenModal();
 		$scope.clearAddItemForm();
 		$scope.saveData();
@@ -75,7 +95,7 @@ function MainListController($scope) {
         if (typeof items === "undefined") {
             items = [];   
         }
-        $scope.items.push(new $scope.ItemFolder($scope.folderName, items));
+        $scope.location[0].push(new $scope.ItemFolder($scope.folderName, items));
 		$scope.closeOpenModal();
 		$scope.clearAddFolderForm();
 		$scope.saveData();
@@ -89,48 +109,74 @@ function MainListController($scope) {
     //Deprecated and Dev methods
     
     $scope.devDeleteAllItems = function () {
-        $scope.items = [];
+        $scope.location = $scope.location.slice(0, 1);
+        $scope.location[0] = [];
         $scope.saveData();
     };
     
 	$scope.deleteSelectedItems = function () {
-		$scope.items = _.filter($scope.items, function(item) {
+		$scope.location[0] = _.filter($scope.location[0], function(item) {
 			return !item.selected;
 		});
 		$scope.saveData();
 	};
+    
+    //Live functions
 	
 	$scope.totalCost = function () {
-		var cost = 0;
-		$.each( $scope.items, function(key, value) {
+ 		var cost = 0;
+ 		$.each( $scope.location[0], function(key, value) {
             if (typeof value.cost === "function") {
                 cost += value.cost();   
             }
             else {
                 cost += value.cost;
             }
-		});
-		return cost;
-	};
-	
+ 		});
+ 		return cost;
+ 	};
+    
+    $scope.backSidebarVisible = function () {
+        if ($scope.location.length > 1) {
+            return "";
+        }
+        else {
+            return "invisible";
+        }
+    }
+    
+    $scope.parentFolderName = function () {
+        if ($scope.currentFolder.length > 1) {
+            return $scope.currentFolder[1];
+        }
+        else {
+            return "";
+        }
+    }
+    
     //Save / load
     
 	$scope.saveData = function () {
-		localStorage.setItem('INeedDis-mainListData', JSON.stringify($scope.items));
-	}
+		localStorage.setItem('INeedDis-mainListData', JSON.stringify($scope.location[0]));
+	};
 	
 	$scope.init = function () {
 		if (localStorage.getItem('INeedDis-mainListData')) {
-			$scope.items = JSON.parse(localStorage.getItem('INeedDis-mainListData'));
+			$scope.location[0] = JSON.parse(localStorage.getItem('INeedDis-mainListData'));
 		}
-        if ($scope.items) {
-            $.each( $scope.items, function (key, value) {
-                if (value.folderName) {
-                    $scope.items[key] = new $scope.ItemFolder(value.folderName, value.folderItems);
-                }
-            });
+        if ($scope.location[0]) {
+            $scope.initObjects($scope.location[0]);
         }
 	};
+    
+    $scope.initObjects = function (loc) {
+        $.each( loc, function (key, value) {
+            if (value.folderName) {
+                loc[key] = new $scope.ItemFolder(value.folderName, value.folderItems);
+                $scope.initObjects(loc[key].folderItems);
+            }
+        });
+    };
     
 	$scope.init();
 }
@@ -138,21 +184,21 @@ function MainListController($scope) {
 $(document).ready( function () {
 //    var draggableOptions = { axis: "y", connectToSortable: ".sortable", containment: "parent" };
 //    $(".draggable").draggable(draggableOptions);
-    var mainSortableOptions = { placeholder: "ui-state-highlight",  connectWith: ".sort-item" };
-    var itemSortableOptions = { placeholder: "ui-state-highlight" };
-    $(".main-sortable").sortable( mainSortableOptions );
-    $("sort-item").sortable( itemSortableOptions );
-    
-    //Listen for DOM changes
-    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-    
-    var mutObserver = new MutationObserver(function (mutations) {
-//        $(".draggable").draggable();
-        $(".main-sortable").sortable();
-    });
-    
-    var config = { childList: true };
-    var target = document.querySelector('#main-list');
-    
-    mutObserver.observe(target, config);
+//    var mainSortableOptions = { placeholder: "ui-state-highlight",  connectWith: ".sort-item" };
+//    var itemSortableOptions = { placeholder: "ui-state-highlight" };
+//    $(".main-sortable").sortable( mainSortableOptions );
+//    $("sort-item").sortable( itemSortableOptions );
+//    
+//    //Listen for DOM changes
+//    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+//    
+//    var mutObserver = new MutationObserver(function (mutations) {
+////        $(".draggable").draggable();
+//        $(".main-sortable").sortable();
+//    });
+//    
+//    var config = { childList: true };
+//    var target = document.querySelector('#main-list');
+//    
+//    mutObserver.observe(target, config);
 });

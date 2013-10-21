@@ -72,6 +72,7 @@ h3 { font-size: 18px; }
 h4 { font-size: 14px; }
 h5 { font-size: 12px; }
 h6 { font-size: 9px; }
+.invisible { visibility: hidden }
 
 #modal-shield {
 	display: none;
@@ -90,14 +91,13 @@ h6 { font-size: 9px; }
 /*END STANDARDS*/
 
 #wrapper {
-	width: 700px;
+	width: 900px;
 	margin: 0 auto;
-	position: relative;
-	left: 100px;
 }
 
 #wrapper > header {
 	height: 120px;
+    padding-left: 200px;
 }
 
 #wrapper > header > h1 {
@@ -172,10 +172,20 @@ h6 { font-size: 9px; }
 	float: left;
 }
 
-#sidebar {
+#forward-sidebar {
 	width: 150px;
 	margin-left: 50px;
 	float: left;
+    
+}
+
+#back-sidebar {
+    width: 150px;
+    margin-right: 50px;
+    min-height: 500px;
+    height: 50%;
+    background-color: #ccc;
+    float: left;
 }
 
 #sidebar > h1 {

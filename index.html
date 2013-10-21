@@ -22,6 +22,9 @@
 			<h1 ng-click="devDeleteAllItems()">INeedDis!</h1>
 			<nav></nav>
 		</header>
+        <section id="back-sidebar" class="{{backSidebarVisible()}}" ng-click="openParent()">
+            <h3>{{parentFolderName()}}</h3>
+        </section>
 		<section id="main-content">
 			<div class="add-button button" ng-click="toggleAddItem()">
 				<h3>Add Item</h3>
@@ -29,9 +32,6 @@
             <div class="add-button button" ng-click="toggleAddFolder()">
                 <h3>Add Folder</h3>
             </div>
-			<div ng-if="location.length != 1" class="delete-button button" ng-click="openParent()">
-				<h3>Go up!</h3>
-			</div>
 			<div class="list-container">
 				<ul id="main-list" class="ui-helper-clearfix main-sortable">
 					<li ng-model="location[0]" draggable ng-if="item.itemType == 'wantedItem'" class="{{item.itemType}} draggable list-item selected-{{item.selected}}" ng-click="item.selected = !item.selected" ng-repeat="item in location[0]">
